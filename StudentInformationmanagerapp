@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home: StudentInfoApp()));
+
+class StudentInfoApp extends StatefulWidget {
+  @override
+  _StudentInfoAppState createState() => _StudentInfoAppState();
+}
+
+class _StudentInfoAppState extends State<StudentInfoApp> {
+  int count = 0;
+  final emailCtrl = TextEditingController();
+  final passCtrl = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Student Info Manager")),
+      body: Padding(
+        padding: EdgeInsets.all(16),
+        child: ListView(
+          children: [
+            Text("AbdulWahhabMohammed\nBSc. IT\nUENR",
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            SizedBox(height: 15),
+            CircleAvatar(
+              backgroundImage: NetworkImage("https://i.pravatar.cc/150"),
+              radius: 50,
+            ),
+            ElevatedButton(
+              child: Text("Show Alert"),
+              onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text("Hello Abdul Wahhab! Welcome."))),
+            ),
+            Text("Students: $count",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                IconButton(onPressed: () => setState(() => count++), icon: Icon(Icons.add)),
+                IconButton(onPressed: () => setState(() => count--), icon: Icon(Icons.remove)),
+              ],
+            ),
+            TextField(controller: emailCtrl, decoration: InputDecoration(labelText: "Email")),
+            TextField(
+                controller: passCtrl,
+                decoration: InputDecoration(labelText: "Password"),
+                obscureText: true),
+            ElevatedButton(
+                child: Text("Login"),
+                onPressed: () {
+                  final email = emailCtrl.text, pass = passCtrl.text;
+                  String msg = email.contains("@") && pass.length >= 6
+                      ? "Login Successful"
+                      : "Invalid email or password";
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
+                })
+          ],
+        ),
+      ),
+    );
+  }
+}
