@@ -1,0 +1,2 @@
+# studentinformationmanagerapp
+flutter with dart 
